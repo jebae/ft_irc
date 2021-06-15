@@ -1,0 +1,8 @@
+.vscode
+*.out
+*.txt
+practices
+objs
+test
+client/client
+server/server
