@@ -2,18 +2,18 @@
 
 static int	get_socket(t_uint16 port)
 {
-	static char			*ip = "127.0.0.1";
+	static char			*ip = (char *)"127.0.0.1";
 	int					sockfd;
 	struct sockaddr_in	addr;
 
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	if (sockfd == -1)
-		return (error("fail to create socket"));
+		return (error((char *)"fail to create socket"));
 	addr.sin_family = AF_INET;
 	addr.sin_port = htons(port);
 	addr.sin_addr.s_addr = inet_addr(ip);
 	if (bind(sockfd, (struct sockaddr *)&addr, sizeof(addr)) == -1)
-		return (error("fail to bind"));
+		return (error((char *)"fail to bind"));
 	return (sockfd);
 }
 
@@ -74,7 +74,7 @@ static int	loop_io_multiplex(t_context *ctx)
 		if (res > 0 && handle_io(ctx) == -1)
 			return (-1);
 		else if (res == -1)
-			return (error("fail to select"));
+			return (error((char *)"fail to select"));
 	}
 	return (0);
 }
@@ -85,12 +85,12 @@ int			run_server(t_uint16 port)
 	int			res;
 
 	if (init_context(&ctx) == -1)
-		return (error("fail to initialize context"));
+		return (error((char *)"fail to initialize context"));
 	if ((ctx.listener = get_socket(port)) == -1)
 		return (-1);
 	ctx.maxfd = ctx.listener;
 	if (listen(ctx.listener, 1) == -1)
-		return (error("fail to listen"));
+		return (error((char *)"fail to listen"));
 	printf("server is running on %hu\n", port);
 	res = loop_io_multiplex(&ctx);
 	clear_context(&ctx);

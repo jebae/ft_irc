@@ -8,7 +8,7 @@ static int	get_connected_socket(t_uint16 port)
 
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	if (sockfd == -1)
-		return (error("fail to create socket"));
+		return (error((char *)"fail to create socket"));
 	addr.sin_family = AF_INET;
 	addr.sin_port = htons(port);
 	addr.sin_addr.s_addr = inet_addr(ip);
@@ -16,7 +16,7 @@ static int	get_connected_socket(t_uint16 port)
 		(struct sockaddr *)&addr, sizeof(addr)) == -1)
 	{
 		close(sockfd);
-		return (error("fail to connect server"));
+		return (error((char *)"fail to connect server"));
 	}
 	printf("connected\n");
 	return (sockfd);
@@ -44,7 +44,7 @@ static int	loop_io(t_context *ctx)
 		init_fdset(ctx);
 		if (select(ctx->sockfd + 1, &ctx->rset, &ctx->wset, NULL,
 			&timeout) == -1)
-			return (error("fail to select"));
+			return (error((char *)"fail to select"));
 		if (FD_ISSET(ctx->sockfd, &ctx->rset))
 		{
 			recv(ctx->sockfd, buf, 512, 0);

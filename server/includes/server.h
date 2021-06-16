@@ -1,22 +1,28 @@
 #ifndef SERVER_H
 # define SERVER_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 # include "libft.h"
+#ifdef __cplusplus
+}
+#endif
 # include "shared.h"
 # include <sys/socket.h>
 # include <netinet/in.h>
 # include <arpa/inet.h>
 # include <stdio.h>
 
+# define MAX_NICK_LEN	15
+
 typedef struct	s_user
 {
 	int		sockfd;
 	char	*nick;
 	char	*channel;
-	t_uint8	rbuf[512];
-	t_uint8	wbuf[512];
+	t_list	output_q;
 }				t_user;
-
 
 typedef struct	s_context
 {
@@ -35,6 +41,9 @@ void			clear_context(t_context *ctx);
 int				add_user(t_context *ctx);
 int				route_input(t_user *user, t_context *ctx);
 int				handle_output(t_user *user, t_context *ctx);
+int				enqueue_output(
+	t_uint8 type, t_uint8 *payload, t_uint64 size, t_user *user);
 int				run_server(t_uint16 port);
+int				nick(t_user *user, char *payload, t_context *ctx);
 
 #endif

@@ -16,6 +16,6 @@ int		send_msg(t_context *ctx)
 		err = 1;
 	ft_memdel((void **)&ctx->user_input);
 	if (err)
-		return (error("fail to send"));
+		return (error((char *)"fail to send"));
 	return (0);
 }

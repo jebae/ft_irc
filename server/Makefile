@@ -21,7 +21,8 @@ SRCS = context.c\
 	utils.c\
 	main.c\
 
-SRC_INPUT = router.c
+SRC_INPUT = router.c\
+	nick.c\
 
 # objs
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
@@ -42,3 +43,18 @@ $(NAME): $(OBJDIR) $(OBJS)
 
 $(OBJDIR):
 	mkdir -p $@
+
+def = ''
+
+test:
+	$(MAKE) -C $(LIBFT)
+	g++\
+		-Wall -Wextra -std=c++11\
+		$(def)\
+		-lgtest\
+		$(LIBS)\
+		$(INCLUDES)\
+		$(filter-out ./srcs/main.c, $(wildcard $(SRCDIR)/*.c) $(wildcard $(SRCDIR)/input/*.c)) $(SRCDIR)/*.test.cpp $(SRCDIR)/**/*.test.cpp\
+		-o $@
+
+.PHONY: all test
