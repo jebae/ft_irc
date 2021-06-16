@@ -17,6 +17,7 @@ LIBS = -L $(LIBFT) -lft
 SRCS = run.c\
 	utils.c\
 	main.c\
+	input.c\
 
 SRC_OUTPUT = send.c
 

@@ -10,4 +10,10 @@ typedef unsigned int		t_uint32;
 typedef long long			t_int64;
 typedef unsigned long long	t_uint64;
 
+typedef struct	s_msg_hdr
+{
+	t_uint8		type;
+	t_uint16	size;
+}				t_msg_hdr;
+
 #endif

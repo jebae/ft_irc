@@ -9,8 +9,18 @@
 # include <arpa/inet.h>
 # include <stdio.h>
 
+typedef struct	s_context
+{
+	fd_set	rset;
+	fd_set	wset;
+	int		sockfd;
+	char	*user_input;
+}				t_context;
+
+
 int			error(char *msg);
-int			send_msg(int sockfd);
+int			send_msg(t_context *ctx);
 int			run_client(t_uint16 port);
+int			read_stdin(t_context *ctx);
 
 #endif

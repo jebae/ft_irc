@@ -1,18 +1,21 @@
 #include "client.h"
 
-int		send_msg(int sockfd)
+/*
+** TODO
+** parse user_input and send msg
+*/
+int		send_msg(t_context *ctx)
 {
-	char	*line;
-	int		res;
+	t_uint16	size;
+	int			err;
 
-	if (get_next_line(STDIN_FILENO, &line) == -1)
-		return (error("fail to read line"));
-	res = 0;
-	if (send(sockfd, line, ft_strlen(line) + 1, 0) == -1)
-	{
-		error("fail to send");
-		res = -1;
-	}
-	ft_memdel((void **)&line);
-	return (res);
+	printf("send\n");
+	size = ft_strlen(ctx->user_input) + 1;
+	err = 0;
+	if (send(ctx->sockfd, ctx->user_input, size, 0) == -1)
+		err = 1;
+	ft_memdel((void **)&ctx->user_input);
+	if (err)
+		return (error("fail to send"));
+	return (0);
 }

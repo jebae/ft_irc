@@ -22,39 +22,50 @@ static int	get_connected_socket(t_uint16 port)
 	return (sockfd);
 }
 
-static int	loop_io(int sockfd)
+static void	init_fdset(t_context *ctx)
 {
-	fd_set				rset;
-	struct timeval		timeout;
-	t_uint8				buf[512];
+	FD_ZERO(&ctx->rset);
+	FD_ZERO(&ctx->wset);
+	FD_SET(ctx->sockfd, &ctx->rset);
+	FD_SET(STDIN_FILENO, &ctx->rset);
+	if (ctx->user_input != NULL)
+		FD_SET(ctx->sockfd, &ctx->wset);
+}
+
+static int	loop_io(t_context *ctx)
+{
+	struct timeval	timeout;
+	t_uint8			buf[512];
 
 	while (1)
 	{
 		timeout.tv_sec = 0;
 		timeout.tv_usec = 0;
-		FD_ZERO(&rset);
-		FD_SET(STDIN_FILENO, &rset);
-		FD_SET(sockfd, &rset);
-		if (select(sockfd + 1, &rset, NULL, NULL, &timeout) == -1)
+		init_fdset(ctx);
+		if (select(ctx->sockfd + 1, &ctx->rset, &ctx->wset, NULL,
+			&timeout) == -1)
 			return (error("fail to select"));
-		if (FD_ISSET(0, &rset))
-			send_msg(sockfd);
-		if (FD_ISSET(sockfd, &rset))
+		if (FD_ISSET(ctx->sockfd, &ctx->rset))
 		{
-			recv(sockfd, buf, 512, 0);
+			recv(ctx->sockfd, buf, 512, 0);
 			printf("server said: %s\n", buf);
 		}
+		if (FD_ISSET(STDIN_FILENO, &ctx->rset) && read_stdin(ctx) == -1)
+			return (-1);
+		if (FD_ISSET(ctx->sockfd, &ctx->wset))
+			send_msg(ctx);
 	}
 	return (0);
 }
 
 int			run_client(t_uint16 port)
 {
-	int	sockfd;
-	int	res;
+	t_context	ctx;
+	int			res;
 
-	if ((sockfd = get_connected_socket(port)) == -1)
+	ctx.user_input = NULL;
+	if ((ctx.sockfd = get_connected_socket(port)) == -1)
 		return (-1);
-	res = loop_io(sockfd);
+	res = loop_io(&ctx);
 	return (res);
 }
