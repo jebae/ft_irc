@@ -38,12 +38,18 @@ typedef struct	s_context
 int				error(char *msg);
 int				init_context(t_context *ctx);
 void			clear_context(t_context *ctx);
+int				run_server(t_uint16 port);
+
 int				add_user(t_context *ctx);
+int				change_nick(
+	char *new_nick, t_user *user, t_context *ctx);
+
 int				route_input(t_user *user, t_context *ctx);
+
 int				send_msg(t_user *user);
 int				enqueue_output(
 	t_uint8 type, t_uint8 *payload, t_uint64 size, t_user *user);
-int				run_server(t_uint16 port);
-int				nick(t_user *user, char *payload, t_context *ctx);
+
+int				nick(char *payload, t_user *user, t_context *ctx);
 
 #endif

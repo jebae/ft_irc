@@ -1,6 +1,6 @@
 #include "client.h"
 
-int		read_stdin(t_context *ctx)
+int			read_stdin(t_context *ctx)
 {
 	if (get_next_line(STDIN_FILENO, &ctx->user_input) == -1)
 		return (error((char *)"fail to read line"));

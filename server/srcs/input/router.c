@@ -38,7 +38,7 @@ int				route_input(t_user *user, t_context *ctx)
 	log_request(user, &hdr);
 	res = 0;
 	if (hdr.type == MSG_TYPE_NICK)
-		res = nick(user, (char *)payload, ctx);
+		res = nick((char *)payload, user, ctx);
 	ft_memdel((void **)&payload);
 	return (res);
 }
