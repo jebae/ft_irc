@@ -20,15 +20,25 @@ static int		read_input(int sockfd, t_msg_hdr *hdr, t_uint8 **payload)
 	return (0);
 }
 
-int		route_input(t_user *user, t_context *ctx)
+static void		log_request(t_user *user, t_msg_hdr *hdr)
 {
-	t_msg_hdr		hdr;
-	t_uint8			*payload;
+	if (hdr->type == MSG_TYPE_NICK)
+		printf("/nick");
+	printf(" %s\n", user->nick);
+}
+
+int				route_input(t_user *user, t_context *ctx)
+{
+	t_msg_hdr	hdr;
+	t_uint8		*payload;
+	int			res;
 
 	if (read_input(user->sockfd, &hdr, &payload) == -1)
 		return (-1);
+	log_request(user, &hdr);
+	res = 0;
 	if (hdr.type == MSG_TYPE_NICK)
-		return (nick(user, (char *)payload, ctx));
+		res = nick(user, (char *)payload, ctx);
 	ft_memdel((void **)&payload);
-	return (0);
+	return (res);
 }

@@ -17,11 +17,6 @@ static int	get_socket(t_uint16 port)
 	return (sockfd);
 }
 
-/*
-** TODO
-** rset: set fd when receive buffer is empty only
-** wset: set fd when send buffer is full only
-*/
 static void	init_fdset(t_context *ctx)
 {
 	t_list_node	*node;
@@ -34,7 +29,8 @@ static void	init_fdset(t_context *ctx)
 	{
 		user = (t_user *)node->data;
 		FD_SET(user->sockfd, &ctx->rset);
-		FD_SET(user->sockfd, &ctx->wset);
+		if (user->output_q.length > 0)
+			FD_SET(user->sockfd, &ctx->wset);
 		node = node->next;
 	}
 	FD_SET(ctx->listener, &ctx->rset);
@@ -45,8 +41,9 @@ static int	handle_io(t_context *ctx)
 	t_list_node	*node;
 	t_user		*user;
 
-	if (FD_ISSET(ctx->listener, &ctx->rset) && add_user(ctx) == -1)
-		return (-1);
+	if (FD_ISSET(ctx->listener, &ctx->rset))
+		if (add_user(ctx) == -1)
+			return (-1);
 	node = ctx->users.head;
 	while (node != NULL)
 	{
@@ -54,7 +51,8 @@ static int	handle_io(t_context *ctx)
 		if (FD_ISSET(user->sockfd, &ctx->rset))
 			route_input(user, ctx);
 		if (FD_ISSET(user->sockfd, &ctx->wset))
-			handle_output(user, ctx);
+			if (send_msg(user) == -1)
+				return (-1);
 		node = node->next;
 	}
 	return (0);

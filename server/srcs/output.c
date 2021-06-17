@@ -1,13 +1,19 @@
 #include "server.h"
 
-/*
-** TODO
-** send with user->wbuf
-*/
-int		handle_output(t_user *user, t_context *ctx)
+int		send_msg(t_user *user)
 {
-	(void)user;
-	(void)ctx;
+	t_list		*q;
+	t_msg_hdr	*hdr;
+
+	q = &user->output_q;
+	while (q->length > 0)
+	{
+		hdr = (t_msg_hdr *)q->head->data;
+		if (send(user->sockfd,
+			q->head->data, sizeof(t_msg_hdr) + hdr->size, 0) == -1)
+			return (error((char *)"fail to send message"));
+		pop_list_node(0, q);
+	}
 	return (0);
 }
 

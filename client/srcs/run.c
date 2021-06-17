@@ -2,7 +2,7 @@
 
 static int	get_connected_socket(t_uint16 port)
 {
-	static char			*ip = "127.0.0.1";
+	static char			*ip = (char *)"127.0.0.1";
 	int					sockfd;
 	struct sockaddr_in	addr;
 
@@ -35,7 +35,6 @@ static void	init_fdset(t_context *ctx)
 static int	loop_io(t_context *ctx)
 {
 	struct timeval	timeout;
-	t_uint8			buf[512];
 
 	while (1)
 	{
@@ -46,12 +45,11 @@ static int	loop_io(t_context *ctx)
 			&timeout) == -1)
 			return (error((char *)"fail to select"));
 		if (FD_ISSET(ctx->sockfd, &ctx->rset))
-		{
-			recv(ctx->sockfd, buf, 512, 0);
-			printf("server said: %s\n", buf);
-		}
-		if (FD_ISSET(STDIN_FILENO, &ctx->rset) && read_stdin(ctx) == -1)
-			return (-1);
+			if (read_socket(ctx->sockfd) == -1)
+				return (-1);
+		if (FD_ISSET(STDIN_FILENO, &ctx->rset))
+			if (read_stdin(ctx) == -1)
+				return (-1);
 		if (FD_ISSET(ctx->sockfd, &ctx->wset))
 			send_msg(ctx);
 	}

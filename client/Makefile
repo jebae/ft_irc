@@ -19,7 +19,9 @@ SRCS = run.c\
 	main.c\
 	input.c\
 
-SRC_OUTPUT = send.c
+SRC_OUTPUT = send.c\
+	parse.c\
+	nick.c\
 
 # objs
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
@@ -40,3 +42,18 @@ $(NAME): $(OBJDIR) $(OBJS)
 
 $(OBJDIR):
 	mkdir -p $@
+
+def = ''
+
+test:
+	$(MAKE) -C $(LIBFT)
+	g++\
+		-Wall -Wextra -std=c++11\
+		$(def)\
+		-lgtest\
+		$(LIBS)\
+		$(INCLUDES)\
+		$(filter-out ./srcs/main.c, $(wildcard $(SRCDIR)/*.c) $(wildcard $(SRCDIR)/output/*.c)) $(SRCDIR)/*.test.cpp $(SRCDIR)/**/*.test.cpp\
+		-o $@
+
+.PHONY: all test
