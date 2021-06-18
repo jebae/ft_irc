@@ -18,12 +18,10 @@ static int	ack_channel_already_exist(t_user *user)
 
 static int	ack_channel_created(char *name, t_list *users)
 {
-	static char	*payload_prefix = (char *)"Channel [";
-	static char	*payload_suffix = (char *)"] created";
 	char		*payload;
 	int			res;
 
-	payload = strcat_all(3, payload_prefix, name, payload_suffix);
+	payload = strcat_all(3, (char *)"Channel [", name, (char *)"] created");
 	if (payload == NULL)
 		return (error((char *)"fail to concat payload"));
 	res = broadcast_to_all(MSG_TYPE_CREATE_CHANNELACK,

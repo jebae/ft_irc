@@ -24,9 +24,11 @@ static void		log_request(t_user *user, t_msg_hdr *hdr)
 {
 	if (hdr->type == MSG_TYPE_NICK)
 		printf("/nick");
-	if (hdr->type == MSG_TYPE_CREATE_CHANNEL)
+	else if (hdr->type == MSG_TYPE_CREATE_CHANNEL)
 		printf("/create_channel");
-	printf(" %s\n", user->nick);
+	else if (hdr->type == MSG_TYPE_LEAVE)
+		printf("/leave");
+	printf(" [%s]\n", user->nick);
 }
 
 int				route_input(t_user *user, t_context *ctx)
@@ -43,6 +45,8 @@ int				route_input(t_user *user, t_context *ctx)
 		res = handle_nick((char *)payload, user, ctx);
 	else if (hdr.type == MSG_TYPE_CREATE_CHANNEL)
 		res = handle_create_channel((char *)payload, user, ctx);
+	else if (hdr.type == MSG_TYPE_LEAVE)
+		res = handle_leave(user, ctx);
 	ft_memdel((void **)&payload);
 	return (res);
 }

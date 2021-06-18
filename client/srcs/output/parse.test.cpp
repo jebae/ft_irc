@@ -63,3 +63,21 @@ TEST_F(ParseUserInput, create_channel)
 
 	ASSERT_STREQ((char *)payload, (char *)"toy_story");
 }
+
+TEST_F(ParseUserInput, leave)
+{
+	char		*input = (char *)"/leave";
+	t_msg_hdr	*hdr;
+	t_uint64	size;
+
+	// execute
+	size = parse_user_input(input, &msg);
+
+	// test message size
+	ASSERT_EQ(size, sizeof(t_msg_hdr));
+
+	// test header
+	hdr = (t_msg_hdr *)msg;
+	ASSERT_EQ(hdr->type, MSG_TYPE_LEAVE);
+	ASSERT_EQ(hdr->size, (t_uint64)0);
+}

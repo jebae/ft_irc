@@ -93,7 +93,7 @@ TEST_F(CreateChannelTest, channel_already_exist)
 	// test channel same with before execute
 	ASSERT_EQ(get_hashmap(payload, &ctx.channels), channel_users);
 
-	// test already exist ack
+	// test message
 	ASSERT_EQ(me->output_q.length, (t_uint64)1);
 
 	t_uint8 *ack = (t_uint8 *)me->output_q.head->data;
@@ -113,7 +113,7 @@ TEST_F(CreateChannelTest, channel_name_too_long)
 	// test channel not created
 	ASSERT_EQ(get_hashmap(payload, &ctx.channels), (void *)NULL);
 
-	// test already exist ack
+	// test message
 	ASSERT_EQ(me->output_q.length, (t_uint64)1);
 
 	t_uint8 *ack = (t_uint8 *)me->output_q.head->data;

@@ -18,11 +18,10 @@ static int	ack_already_exist(t_user *user)
 
 static int	ack_changed(t_user *user)
 {
-	static char	*payload_prefix = (char *)"Your nickname: ";
 	char		*payload;
 	int			res;
 
-	payload = strcat_all(2, payload_prefix, user->nick);
+	payload = strcat_all(2, (char *)"Your nickname: ", user->nick);
 	if (payload == NULL)
 		return (error((char *)"fail to concat payload"));
 	res = enqueue_output(MSG_TYPE_NICKACK,

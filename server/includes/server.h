@@ -61,6 +61,9 @@ int				enqueue_output(
 int				broadcast_to_all(
 	t_uint8 type, t_uint8 *payload, t_uint64 size, t_list *users);
 
+int				broadcast_to_channel(
+	t_uint8 type, t_uint8 *payload, t_uint64 size, t_list *channel);
+
 /*
 ** user
 */
@@ -72,11 +75,13 @@ int				change_nick(
 ** channel
 */
 int				create_channel(char *name, t_hashmap *channels);
+int				leave_channel(t_user *user, t_hashmap *channels);
 
 /*
 ** msg handler
 */
 int				handle_nick(char *payload, t_user *user, t_context *ctx);
 int				handle_create_channel(char *payload, t_user *user, t_context *ctx);
+int				handle_leave(t_user *user, t_context *ctx);
 
 #endif
