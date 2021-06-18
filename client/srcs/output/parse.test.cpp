@@ -40,3 +40,26 @@ TEST_F(ParseUserInput, nick)
 
 	ASSERT_STREQ((char *)payload, (char *)"buzz");
 }
+
+TEST_F(ParseUserInput, create_channel)
+{
+	char		*input = (char *)"/create_channel toy_story";
+	t_msg_hdr	*hdr;
+	t_uint64	size;
+
+	// execute
+	size = parse_user_input(input, &msg);
+
+	// test message size
+	ASSERT_EQ(size, sizeof(t_msg_hdr) + ft_strlen("toy_story") + 1);
+
+	// test header
+	hdr = (t_msg_hdr *)msg;
+	ASSERT_EQ(hdr->type, MSG_TYPE_CREATE_CHANNEL);
+	ASSERT_EQ(hdr->size, ft_strlen("toy_story") + 1);
+
+	// test payload
+	t_uint8	*payload = msg + sizeof(t_msg_hdr);
+
+	ASSERT_STREQ((char *)payload, (char *)"toy_story");
+}

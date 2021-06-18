@@ -22,14 +22,18 @@ SRCS = context.c\
 
 SRC_INPUT = router.c\
 	nick.c\
+	create_channel.c\
 
 SRC_USER = add.c\
 	nick.c\
+
+SRC_CHANNEL = create.c\
 
 # objs
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 OBJS += $(addprefix $(OBJDIR)/input_, $(SRC_INPUT:.c=.o))
 OBJS += $(addprefix $(OBJDIR)/user_, $(SRC_USER:.c=.o))
+OBJS += $(addprefix $(OBJDIR)/channel_, $(SRC_CHANNEL:.c=.o))
 
 # compile objs
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
@@ -39,6 +43,9 @@ $(OBJDIR)/input_%.o: $(SRCDIR)/input/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(OBJDIR)/user_%.o: $(SRCDIR)/user/%.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+$(OBJDIR)/channel_%.o: $(SRCDIR)/channel/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 # commands

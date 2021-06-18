@@ -13,6 +13,7 @@ static void	clear_channel(t_tree_node *node)
 		ft_memdel((void **)&cur);
 		cur = next;
 	}
+	ft_memdel((void **)&node->val);
 }
 
 static void	clear_user_by_nick(t_tree_node *node)

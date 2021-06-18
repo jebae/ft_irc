@@ -1,8 +1,13 @@
 #ifndef TYPE_H
 # define TYPE_H
 
-# define MSG_TYPE_NICK		1
-# define MSG_TYPE_NICKACK	2
+# define MSG_TYPE_NICK					1
+# define MSG_TYPE_NICKACK				2
+# define MSG_TYPE_CREATE_CHANNEL		3
+# define MSG_TYPE_CREATE_CHANNELACK		4
+
+# define MAX_NICK_LEN					15
+# define MAX_CHANNEL_NAME_LEN			30
 
 typedef char				t_int8;
 typedef unsigned char		t_uint8;

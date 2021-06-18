@@ -42,7 +42,7 @@ TEST_F(NickTest, new_nickname)
 	char	*payload = (char *)"buzz";
 
 	// execute
-	ASSERT_EQ(nick(payload, me, &ctx), 0);
+	ASSERT_EQ(handle_nick(payload, me, &ctx), 0);
 
 	// test nickname
 	ASSERT_STREQ(me->nick, payload);
@@ -70,7 +70,7 @@ TEST_F(NickTest, change_nickname)
 	set_hashmap(ft_strdup(me->nick), me, &ctx.user_by_nick);
 
 	// execute
-	ASSERT_EQ(nick(payload, me, &ctx), 0);
+	ASSERT_EQ(handle_nick(payload, me, &ctx), 0);
 
 	// test nickname
 	ASSERT_STREQ(me->nick, payload);
@@ -103,7 +103,7 @@ TEST_F(NickTest, nickname_already_exist)
 	set_hashmap(ft_strdup(payload), user, &ctx.user_by_nick);
 
 	// execute
-	ASSERT_EQ(nick(payload, me, &ctx), 0);
+	ASSERT_EQ(handle_nick(payload, me, &ctx), 0);
 
 	// test nickname
 	ASSERT_EQ(me->nick, (char *)NULL);
@@ -126,7 +126,7 @@ TEST_F(NickTest, nickname_too_long)
 	char	*payload = (char *)"qwerqwerqwerqwerqwerqwerqwerqwer";
 
 	// execute
-	ASSERT_EQ(nick(payload, me, &ctx), 0);
+	ASSERT_EQ(handle_nick(payload, me, &ctx), 0);
 
 	// test nickname
 	ASSERT_STREQ(me->nick, (char *)NULL);

@@ -11,7 +11,7 @@ static int	rollback(char *prev, char *key, t_user *user, char *err_msg)
 }
 
 int			change_nick(
-	char *new_nick, t_user *user, t_context *ctx)
+	char *new_nick, t_user *user, t_hashmap *user_by_nick)
 {
 	char	*key;
 	char	*prev;
@@ -24,12 +24,12 @@ int			change_nick(
 	if ((key = ft_strdup(user->nick)) == NULL)
 		return (rollback(prev, NULL, user,
 			(char *)"fail to copy nick key"));
-	if (set_hashmap(key, user, &ctx->user_by_nick) == -1)
+	if (set_hashmap(key, user, user_by_nick) == -1)
 		return (rollback(prev, key, user,
 			(char *)"fail to set user_by_nick"));
 	if (prev != NULL)
 	{
-		remove_hashmap(prev, &ctx->user_by_nick);
+		remove_hashmap(prev, user_by_nick);
 		ft_memdel((void **)&prev);
 	}
 	return (0);

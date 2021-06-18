@@ -21,7 +21,6 @@ SRCS = run.c\
 
 SRC_OUTPUT = send.c\
 	parse.c\
-	nick.c\
 
 # objs
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))

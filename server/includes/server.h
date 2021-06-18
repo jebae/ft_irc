@@ -14,8 +14,6 @@ extern "C" {
 # include <arpa/inet.h>
 # include <stdio.h>
 
-# define MAX_NICK_LEN	15
-
 typedef struct	s_user
 {
 	int		sockfd;
@@ -35,21 +33,50 @@ typedef struct	s_context
 	t_hashmap	user_by_nick;
 }				t_context;
 
+/*
+** utils
+*/
 int				error(char *msg);
+
+/*
+** context
+*/
 int				init_context(t_context *ctx);
 void			clear_context(t_context *ctx);
+
+/*
+** run
+*/
 int				run_server(t_uint16 port);
 
-int				add_user(t_context *ctx);
-int				change_nick(
-	char *new_nick, t_user *user, t_context *ctx);
-
+/*
+** io
+*/
 int				route_input(t_user *user, t_context *ctx);
-
 int				send_msg(t_user *user);
+
 int				enqueue_output(
 	t_uint8 type, t_uint8 *payload, t_uint64 size, t_user *user);
 
-int				nick(char *payload, t_user *user, t_context *ctx);
+int				broadcast_to_all(
+	t_uint8 type, t_uint8 *payload, t_uint64 size, t_list *users);
+
+/*
+** user
+*/
+int				add_user(t_context *ctx);
+int				change_nick(
+	char *new_nick, t_user *user, t_hashmap *user_by_nick);
+
+/*
+** channel
+*/
+int				create_channel(char *name, t_hashmap *channels);
+
+/*
+** msg handler
+*/
+int				handle_nick(char *payload, t_user *user, t_context *ctx);
+int				handle_create_channel(char *payload, t_user *user, t_context *ctx);
 
 #endif

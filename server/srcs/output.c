@@ -25,7 +25,7 @@ int		enqueue_output(
 
 	msg = (t_uint8 *)ft_memalloc(size + sizeof(t_msg_hdr));
 	if (msg == NULL)
-		return (-1);
+		return (error((char *)"fail to allocate msg"));
 	hdr = (t_msg_hdr *)msg;
 	hdr->type = type;
 	hdr->size = size;
@@ -34,6 +34,23 @@ int		enqueue_output(
 	{
 		ft_memdel((void **)&msg);
 		return (error((char *)"fail to push output msg"));
+	}
+	return (0);
+}
+
+int		broadcast_to_all(
+	t_uint8 type, t_uint8 *payload, t_uint64 size, t_list *users)
+{
+	t_list_node	*node;
+	t_user		*user;
+
+	node = users->head;
+	while (node != NULL)
+	{
+		user = (t_user *)node->data;
+		if (enqueue_output(type, payload, size, user) == -1)
+			return (-1);
+		node = node->next;
 	}
 	return (0);
 }
