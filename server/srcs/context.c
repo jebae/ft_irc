@@ -41,16 +41,18 @@ void		clear_context(t_context *ctx)
 	t_list_node	*node;
 	t_user		*user;
 
+	clear_hashmap(&ctx->channels);
+	clear_hashmap(&ctx->user_by_nick);
 	node = ctx->users.head;
 	while (node != NULL)
 	{
 		user = (t_user *)node->data;
-		ft_memdel((void **)&user->nick);
-		ft_memdel((void **)&user->channel);
+		if (user->nick)
+			ft_memdel((void **)&user->nick);
+		if (user->channel)
+			ft_memdel((void **)&user->channel);
 		clear_list(&user->output_q);
 		node = node->next;
 	}
 	clear_list(&ctx->users);
-	clear_hashmap(&ctx->channels);
-	clear_hashmap(&ctx->user_by_nick);
 }

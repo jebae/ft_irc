@@ -76,12 +76,17 @@ int				change_nick(
 */
 int				create_channel(char *name, t_hashmap *channels);
 int				leave_channel(t_user *user, t_hashmap *channels);
+int				remove_channel(char *name, t_hashmap *channels);
 
 /*
 ** msg handler
 */
 int				handle_nick(char *payload, t_user *user, t_context *ctx);
-int				handle_create_channel(char *payload, t_user *user, t_context *ctx);
+int				handle_create_channel(
+	char *payload, t_user *user, t_context *ctx);
+
 int				handle_leave(t_user *user, t_context *ctx);
+int				handle_remove_channel(
+	char *payload, t_user *user, t_context *ctx);
 
 #endif

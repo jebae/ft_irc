@@ -24,12 +24,14 @@ SRC_INPUT = router.c\
 	nick.c\
 	create_channel.c\
 	leave.c\
+	remove_channel.c\
 
 SRC_USER = add.c\
 	nick.c\
 
 SRC_CHANNEL = create.c\
 	leave.c\
+	remove.c\
 
 # objs
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))

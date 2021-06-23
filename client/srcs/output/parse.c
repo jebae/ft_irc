@@ -52,5 +52,8 @@ t_uint64		parse_user_input(char *input, t_uint8 **msg)
 			input + 16, MSG_TYPE_CREATE_CHANNEL, msg);
 	else if (ft_strcmp(input, "/leave") == 0)
 		msg_size = parse_no_payload(MSG_TYPE_LEAVE, msg);
+	else if (ft_strncmp(input, "/remove_channel ", 16) == 0)
+		msg_size = parse_simple_input(
+			input + 16, MSG_TYPE_REMOVE_CHANNEL, msg);
 	return (msg_size);
 }

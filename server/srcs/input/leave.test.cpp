@@ -43,7 +43,6 @@ protected:
 			(char *)"buster", (char *)"rex", (char *)"ham",
 		};
 
-
 		for (unsigned int i=1; i < 10; i++)
 		{
 			t_user	*user = create_user(i);
