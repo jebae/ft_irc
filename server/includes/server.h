@@ -58,11 +58,12 @@ int				send_msg(t_user *user);
 int				enqueue_output(
 	t_uint8 type, t_uint8 *payload, t_uint64 size, t_user *user);
 
-int				broadcast_to_all(
+int				broadcast_to_users(
 	t_uint8 type, t_uint8 *payload, t_uint64 size, t_list *users);
 
-int				broadcast_to_channel(
-	t_uint8 type, t_uint8 *payload, t_uint64 size, t_list *channel);
+int				broadcast_to_users_except_me(
+	t_uint8 type, t_uint8 *payload, t_uint64 size,
+	t_list *users, t_user *me);
 
 /*
 ** user
@@ -77,6 +78,7 @@ int				change_nick(
 int				create_channel(char *name, t_hashmap *channels);
 int				leave_channel(t_user *user, t_hashmap *channels);
 int				remove_channel(char *name, t_hashmap *channels);
+int				join_channel(t_user *user, char *name, t_hashmap *channels);
 
 /*
 ** msg handler
@@ -86,7 +88,10 @@ int				handle_create_channel(
 	char *payload, t_user *user, t_context *ctx);
 
 int				handle_leave(t_user *user, t_context *ctx);
+
 int				handle_remove_channel(
 	char *payload, t_user *user, t_context *ctx);
+
+int				handle_join(char *payload, t_user *user, t_context *ctx);
 
 #endif

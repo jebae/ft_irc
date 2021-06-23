@@ -109,7 +109,7 @@ TEST_F(LeaveTest, leave_only_me_existed_channel)
 	t_uint8 *ack = (t_uint8 *)me->output_q.head->data;
 	t_msg_hdr *hdr = (t_msg_hdr *)ack;
 
-	ASSERT_EQ(hdr->type, MSG_TYPE_LEAVE_ACK);
+	ASSERT_EQ(hdr->type, MSG_TYPE_LEAVEACK);
 	ASSERT_STREQ((char *)ack + sizeof(t_msg_hdr), (char *)"You left [only_me]");
 
 	// test other user's msg
@@ -166,7 +166,7 @@ TEST_F(LeaveTest, leave_multiple_user_existed_channel)
 	t_uint8 *ack = (t_uint8 *)me->output_q.head->data;
 	t_msg_hdr *hdr = (t_msg_hdr *)ack;
 
-	ASSERT_EQ(hdr->type, MSG_TYPE_LEAVE_ACK);
+	ASSERT_EQ(hdr->type, MSG_TYPE_LEAVEACK);
 	ASSERT_STREQ((char *)ack + sizeof(t_msg_hdr), (char *)"You left [room1]");
 
 	// test other user's msg
@@ -187,7 +187,7 @@ TEST_F(LeaveTest, leave_multiple_user_existed_channel)
 				ack = (t_uint8 *)user->output_q.head->data;
 				hdr = (t_msg_hdr *)ack;
 
-				ASSERT_EQ(hdr->type, MSG_TYPE_LEAVE_ACK);
+				ASSERT_EQ(hdr->type, MSG_TYPE_LEAVEACK);
 				ASSERT_STREQ((char *)ack + sizeof(t_msg_hdr), (char *)"[woody] left [room1]");
 			}
 			else
@@ -211,6 +211,6 @@ TEST_F(LeaveTest, no_channel_joined)
 	t_uint8 *ack = (t_uint8 *)me->output_q.head->data;
 	t_msg_hdr *hdr = (t_msg_hdr *)ack;
 
-	ASSERT_EQ(hdr->type, MSG_TYPE_LEAVE_ACK);
+	ASSERT_EQ(hdr->type, MSG_TYPE_LEAVEACK);
 	ASSERT_STREQ((char *)ack + sizeof(t_msg_hdr), (char *)"You are not in any channel");
 }

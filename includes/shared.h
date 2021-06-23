@@ -6,9 +6,11 @@
 # define MSG_TYPE_CREATE_CHANNEL		3
 # define MSG_TYPE_CREATE_CHANNELACK		4
 # define MSG_TYPE_LEAVE					5
-# define MSG_TYPE_LEAVE_ACK				6
+# define MSG_TYPE_LEAVEACK				6
 # define MSG_TYPE_REMOVE_CHANNEL		7
 # define MSG_TYPE_REMOVE_CHANNELACK		8
+# define MSG_TYPE_JOIN					9
+# define MSG_TYPE_JOINACK				10
 
 # define MAX_NICK_LEN					15
 # define MAX_CHANNEL_NAME_LEN			30

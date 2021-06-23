@@ -30,6 +30,8 @@ static void		log_request(t_user *user, t_msg_hdr *hdr)
 		printf("/leave");
 	else if (hdr->type == MSG_TYPE_REMOVE_CHANNEL)
 		printf("/remove_channel");
+	else if (hdr->type == MSG_TYPE_JOIN)
+		printf("/join");
 	printf(" [%s]\n", user->nick);
 }
 
@@ -51,6 +53,8 @@ int				route_input(t_user *user, t_context *ctx)
 		res = handle_leave(user, ctx);
 	else if (hdr.type == MSG_TYPE_REMOVE_CHANNEL)
 		res = handle_remove_channel((char *)payload, user, ctx);
+	else if (hdr.type == MSG_TYPE_JOIN)
+		res = handle_join((char *)payload, user, ctx);
 	ft_memdel((void **)&payload);
 	return (res);
 }

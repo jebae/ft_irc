@@ -24,7 +24,7 @@ static int	ack_channel_created(char *name, t_list *users)
 	payload = strcat_all(3, (char *)"Channel [", name, (char *)"] created");
 	if (payload == NULL)
 		return (error((char *)"fail to concat payload"));
-	res = broadcast_to_all(MSG_TYPE_CREATE_CHANNELACK,
+	res = broadcast_to_users(MSG_TYPE_CREATE_CHANNELACK,
 		(t_uint8 *)payload, ft_strlen(payload) + 1, users);
 	ft_memdel((void **)&payload);
 	return (res);

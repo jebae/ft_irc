@@ -38,7 +38,7 @@ static int	loop_io(t_context *ctx)
 
 	while (1)
 	{
-		timeout.tv_sec = 0;
+		timeout.tv_sec = 10;
 		timeout.tv_usec = 0;
 		init_fdset(ctx);
 		if (select(ctx->sockfd + 1, &ctx->rset, &ctx->wset, NULL,

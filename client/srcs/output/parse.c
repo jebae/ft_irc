@@ -55,5 +55,7 @@ t_uint64		parse_user_input(char *input, t_uint8 **msg)
 	else if (ft_strncmp(input, "/remove_channel ", 16) == 0)
 		msg_size = parse_simple_input(
 			input + 16, MSG_TYPE_REMOVE_CHANNEL, msg);
+	else if (ft_strncmp(input, "/join ", 6) == 0)
+		msg_size = parse_simple_input(input + 6, MSG_TYPE_JOIN, msg);
 	return (msg_size);
 }

@@ -28,7 +28,7 @@ static void		copy_list(t_list *dest, t_list *src)
 	}
 }
 
-static void	clear_channel_users(t_list *users)
+static void		clear_channel_users(t_list *users)
 {
 	t_list_node	*node;
 	t_list_node	*tmp;

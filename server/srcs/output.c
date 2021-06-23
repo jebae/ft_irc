@@ -38,7 +38,7 @@ int		enqueue_output(
 	return (0);
 }
 
-int		broadcast_to_all(
+int		broadcast_to_users(
 	t_uint8 type, t_uint8 *payload, t_uint64 size, t_list *users)
 {
 	t_list_node	*node;
@@ -55,18 +55,22 @@ int		broadcast_to_all(
 	return (0);
 }
 
-int		broadcast_to_channel(
-	t_uint8 type, t_uint8 *payload, t_uint64 size, t_list *channel)
+int		broadcast_to_users_except_me(
+	t_uint8 type, t_uint8 *payload, t_uint64 size,
+	t_list *users, t_user *me)
 {
 	t_list_node	*node;
 	t_user		*user;
 
-	node = channel->head;
+	node = users->head;
 	while (node != NULL)
 	{
 		user = (t_user *)node->data;
-		if (enqueue_output(type, payload, size, user) == -1)
-			return (-1);
+		if (user != me)
+		{
+			if (enqueue_output(type, payload, size, user) == -1)
+				return (-1);
+		}
 		node = node->next;
 	}
 	return (0);

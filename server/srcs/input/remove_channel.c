@@ -52,7 +52,7 @@ static int	ack_channel_removed(char *channel_name, t_list *users)
 		(char *)"] removed");
 	if (payload == NULL)
 		return (error((char *)"fail to concat payload"));
-	res = broadcast_to_channel(MSG_TYPE_REMOVE_CHANNELACK,
+	res = broadcast_to_users(MSG_TYPE_REMOVE_CHANNELACK,
 		(t_uint8 *)payload, ft_strlen(payload) + 1, users);
 	ft_memdel((void **)&payload);
 	return (res);

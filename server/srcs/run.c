@@ -65,7 +65,7 @@ static int	loop_io_multiplex(t_context *ctx)
 
 	while (1)
 	{
-		timeout.tv_sec = 0;
+		timeout.tv_sec = 10;
 		timeout.tv_usec = 0;
 		init_fdset(ctx);
 		res = select(ctx->maxfd + 1, &ctx->rset, &ctx->wset, NULL, &timeout);
