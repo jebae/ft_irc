@@ -1,23 +1,6 @@
 #include "server.h"
 
-int		send_msg(t_user *user)
-{
-	t_list		*q;
-	t_msg_hdr	*hdr;
-
-	q = &user->output_q;
-	while (q->length > 0)
-	{
-		hdr = (t_msg_hdr *)q->head->data;
-		if (send(user->sockfd,
-			q->head->data, sizeof(t_msg_hdr) + hdr->size, 0) == -1)
-			return (error((char *)"fail to send message"));
-		pop_list_node(0, q);
-	}
-	return (0);
-}
-
-int		enqueue_output(
+int		enqueue_ack(
 	t_uint8 type, t_uint8 *payload, t_uint64 size, t_user *user)
 {
 	t_uint8		*msg;
@@ -38,7 +21,7 @@ int		enqueue_output(
 	return (0);
 }
 
-int		broadcast_to_users(
+int		broadcast_ack(
 	t_uint8 type, t_uint8 *payload, t_uint64 size, t_list *users)
 {
 	t_list_node	*node;
@@ -48,14 +31,14 @@ int		broadcast_to_users(
 	while (node != NULL)
 	{
 		user = (t_user *)node->data;
-		if (enqueue_output(type, payload, size, user) == -1)
+		if (enqueue_ack(type, payload, size, user) == -1)
 			return (-1);
 		node = node->next;
 	}
 	return (0);
 }
 
-int		broadcast_to_users_except_me(
+int		broadcast_ack_except_me(
 	t_uint8 type, t_uint8 *payload, t_uint64 size,
 	t_list *users, t_user *me)
 {
@@ -68,7 +51,7 @@ int		broadcast_to_users_except_me(
 		user = (t_user *)node->data;
 		if (user != me)
 		{
-			if (enqueue_output(type, payload, size, user) == -1)
+			if (enqueue_ack(type, payload, size, user) == -1)
 				return (-1);
 		}
 		node = node->next;

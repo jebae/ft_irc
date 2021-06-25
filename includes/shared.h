@@ -11,6 +11,10 @@
 # define MSG_TYPE_REMOVE_CHANNELACK		8
 # define MSG_TYPE_JOIN					9
 # define MSG_TYPE_JOINACK				10
+# define MSG_TYPE_CHANNEL_CHAT			11
+# define MSG_TYPE_DIRECT_CHAT			12
+# define MSG_TYPE_CHAT_RELAY			13
+# define MSG_TYPE_CHATACK				14
 
 # define MAX_NICK_LEN					15
 # define MAX_CHANNEL_NAME_LEN			30
@@ -31,6 +35,19 @@ typedef struct	s_msg_hdr
 	t_uint8		type;
 	t_uint64	size;
 }				t_msg_hdr;
+
+typedef struct	s_chat_hdr
+{
+	t_uint8		type;
+	t_uint64	size;
+	t_uint64	content_offset;
+}				t_chat_hdr;
+
+typedef union	u_hdr
+{
+	t_msg_hdr	msg;
+	t_chat_hdr	chat;
+}				t_hdr;
 
 #pragma pack(pop)
 

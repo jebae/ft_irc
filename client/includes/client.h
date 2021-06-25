@@ -25,11 +25,13 @@ typedef struct	s_context
 
 
 int			error(char *msg);
+int			info(char *msg);
 int			send_msg(t_context *ctx);
 int			run_client(t_uint16 port);
 int			read_stdin(t_context *ctx);
 int			read_socket(int sockfd);
+t_uint64	parse_simple_input(char *content, t_uint8 type, t_uint8 **msg);
 t_uint64	parse_user_input(char *input, t_uint8 **msg);
-t_uint64	parse_nick(char **tokens, t_uint8 **msg);
+t_uint64	parse_chat(char *content, t_uint8 **msg);
 
 #endif

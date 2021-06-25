@@ -55,15 +55,27 @@ int				run_server(t_uint16 port);
 int				route_input(t_user *user, t_context *ctx);
 int				send_msg(t_user *user);
 
-int				enqueue_output(
+int				enqueue_ack(
 	t_uint8 type, t_uint8 *payload, t_uint64 size, t_user *user);
 
-int				broadcast_to_users(
+int				enqueue_chat(
+	t_uint8 *payload, t_uint64 size,
+	t_uint64 content_offset, t_user *user);
+
+int				broadcast_ack(
 	t_uint8 type, t_uint8 *payload, t_uint64 size, t_list *users);
 
-int				broadcast_to_users_except_me(
+int				broadcast_ack_except_me(
 	t_uint8 type, t_uint8 *payload, t_uint64 size,
 	t_list *users, t_user *me);
+
+int				broadcast_chat(
+	t_uint8 *payload, t_uint64 size,
+	t_uint64 content_offset, t_list *users);
+
+int				broadcast_chat_except_me(
+	t_uint8 *payload, t_uint64 size,
+	t_uint64 content_offset, t_list *users, t_user *me);
 
 /*
 ** user
@@ -93,5 +105,10 @@ int				handle_remove_channel(
 	char *payload, t_user *user, t_context *ctx);
 
 int				handle_join(char *payload, t_user *user, t_context *ctx);
+int				handle_msg_to_channel(
+	char *payload, t_user *user, t_context *ctx);
+
+int				handle_msg_to_user(
+	t_chat_hdr *hdr, t_uint8 *payload, t_user *user, t_context *ctx);
 
 #endif

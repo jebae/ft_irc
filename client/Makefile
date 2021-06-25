@@ -21,6 +21,7 @@ SRCS = run.c\
 
 SRC_OUTPUT = send.c\
 	parse.c\
+	parse_chat.c\
 
 # objs
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))

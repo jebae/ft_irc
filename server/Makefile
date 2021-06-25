@@ -15,7 +15,6 @@ LIBS = -L $(LIBFT) -lft
 
 # srcs
 SRCS = context.c\
-	output.c\
 	run.c\
 	utils.c\
 	main.c\
@@ -26,6 +25,12 @@ SRC_INPUT = router.c\
 	leave.c\
 	remove_channel.c\
 	join.c\
+	msg_to_channel.c\
+	msg_to_user.c\
+
+SRC_OUTPUT = send.c\
+	ack.c\
+	chat.c\
 
 SRC_USER = add.c\
 	nick.c\
@@ -38,6 +43,7 @@ SRC_CHANNEL = create.c\
 # objs
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 OBJS += $(addprefix $(OBJDIR)/input_, $(SRC_INPUT:.c=.o))
+OBJS += $(addprefix $(OBJDIR)/output_, $(SRC_OUTPUT:.c=.o))
 OBJS += $(addprefix $(OBJDIR)/user_, $(SRC_USER:.c=.o))
 OBJS += $(addprefix $(OBJDIR)/channel_, $(SRC_CHANNEL:.c=.o))
 
@@ -46,6 +52,9 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(OBJDIR)/input_%.o: $(SRCDIR)/input/%.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+$(OBJDIR)/output_%.o: $(SRCDIR)/output/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(OBJDIR)/user_%.o: $(SRCDIR)/user/%.c

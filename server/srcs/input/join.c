@@ -9,7 +9,7 @@ static int	ack_channel_not_exist(t_user *user, char *channel_name)
 		(char *)"Channel [", channel_name, (char *)"] not exist");
 	if (payload == NULL)
 		return (error((char *)"fail to concat payload"));
-	res = enqueue_output(MSG_TYPE_JOINACK,
+	res = enqueue_ack(MSG_TYPE_JOINACK,
 		(t_uint8 *)payload, ft_strlen(payload) + 1, user);
 	ft_memdel((void **)&payload);
 	return (res);
@@ -24,7 +24,7 @@ static int	ack_channel_already_joined(t_user *user, char *channel_name)
 		(char *)"You already joined [", channel_name, (char *)"]");
 	if (payload == NULL)
 		return (error((char *)"fail to concat payload"));
-	res = enqueue_output(MSG_TYPE_JOINACK,
+	res = enqueue_ack(MSG_TYPE_JOINACK,
 		(t_uint8 *)payload, ft_strlen(payload) + 1, user);
 	ft_memdel((void **)&payload);
 	return (res);
@@ -43,7 +43,7 @@ static int	ack_left(t_user *user, char *prev_channel, t_hashmap *channels)
 		(char *)"] left [", prev_channel, (char *)"]");
 	if (payload == NULL)
 		return (error((char *)"fail to concat payload"));
-	res = broadcast_to_users(MSG_TYPE_LEAVEACK,
+	res = broadcast_ack(MSG_TYPE_LEAVEACK,
 		(t_uint8 *)payload, ft_strlen(payload) + 1, channel);
 	ft_memdel((void **)&payload);
 	return (res);
@@ -62,7 +62,7 @@ static int	ack_to_channel(t_user *user, t_hashmap *channels)
 		(char *)"] joined [", user->channel, (char *)"]");
 	if (payload == NULL)
 		return (error((char *)"fail to concat payload"));
-	res = broadcast_to_users_except_me(MSG_TYPE_JOINACK,
+	res = broadcast_ack_except_me(MSG_TYPE_JOINACK,
 		(t_uint8 *)payload, ft_strlen(payload) + 1, channel, user);
 	ft_memdel((void **)&payload);
 	return (res);
@@ -77,7 +77,7 @@ static int	ack_to_joined_user(t_user *user)
 		(char *)"You joined [", user->channel, (char *)"]");
 	if (payload == NULL)
 		return (error((char *)"fail to concat payload"));
-	res = enqueue_output(MSG_TYPE_JOINACK,
+	res = enqueue_ack(MSG_TYPE_JOINACK,
 		(t_uint8 *)payload, ft_strlen(payload) + 1, user);
 	ft_memdel((void **)&payload);
 	return (res);
