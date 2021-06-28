@@ -51,6 +51,8 @@ static void		log_request(t_user *user, t_msg_hdr *hdr)
 		printf("/msg");
 	else if (hdr->type == MSG_TYPE_WHERE_AM_I)
 		printf("/where_am_i");
+	else if (hdr->type == MSG_TYPE_WHO)
+		printf("/who");
 	printf(" [%s]\n", user->nick);
 }
 
@@ -73,6 +75,8 @@ static int		route(
 		return (handle_msg_to_user(&hdr->chat, payload, user, ctx));
 	else if (hdr->msg.type == MSG_TYPE_WHERE_AM_I)
 		return (handle_where_am_i(user));
+	else if (hdr->msg.type == MSG_TYPE_WHO)
+		return (handle_who(user, ctx));
 	return (0);
 }
 

@@ -81,6 +81,8 @@ static t_uint64	parse_by_cmd(char *cmd, char *content, t_uint8 **msg)
 		return (parse_chat(content, msg));
 	else if (ft_strcmp(cmd, "/where_am_i") == 0)
 		return (parse_no_payload(MSG_TYPE_WHERE_AM_I, msg));
+	else if (ft_strcmp(cmd, "/who") == 0)
+		return (parse_no_payload(MSG_TYPE_WHO, msg));
 	return (0);
 }
 

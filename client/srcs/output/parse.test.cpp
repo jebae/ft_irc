@@ -270,3 +270,21 @@ TEST_F(ParseUserInput, where_am_i)
 	ASSERT_EQ(hdr->type, MSG_TYPE_WHERE_AM_I);
 	ASSERT_EQ(hdr->size, (t_uint64)0);
 }
+
+TEST_F(ParseUserInput, who)
+{
+	input = strdup((char *)"/who");
+	t_msg_hdr	*hdr;
+	t_uint64	size;
+
+	// execute
+	size = parse_user_input(input, &msg);
+
+	// test message size
+	ASSERT_EQ(size, sizeof(t_msg_hdr));
+
+	// test header
+	hdr = (t_msg_hdr *)msg;
+	ASSERT_EQ(hdr->type, MSG_TYPE_WHO);
+	ASSERT_EQ(hdr->size, (t_uint64)0);
+}
