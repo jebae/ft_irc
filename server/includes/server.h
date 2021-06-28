@@ -113,5 +113,6 @@ int				handle_msg_to_user(
 
 int				handle_where_am_i(t_user *user);
 int				handle_who(t_user *user, t_context *ctx);
+int				handle_channels(t_user *user, t_context *ctx);
 
 #endif

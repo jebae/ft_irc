@@ -53,6 +53,8 @@ static void		log_request(t_user *user, t_msg_hdr *hdr)
 		printf("/where_am_i");
 	else if (hdr->type == MSG_TYPE_WHO)
 		printf("/who");
+	else if (hdr->type == MSG_TYPE_CHANNELS)
+		printf("/channels");
 	printf(" [%s]\n", user->nick);
 }
 
@@ -77,6 +79,8 @@ static int		route(
 		return (handle_where_am_i(user));
 	else if (hdr->msg.type == MSG_TYPE_WHO)
 		return (handle_who(user, ctx));
+	else if (hdr->msg.type == MSG_TYPE_CHANNELS)
+		return (handle_channels(user, ctx));
 	return (0);
 }
 

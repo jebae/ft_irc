@@ -19,6 +19,8 @@
 # define MSG_TYPE_WHERE_AM_IACK			16
 # define MSG_TYPE_WHO					17
 # define MSG_TYPE_WHOACK				18
+# define MSG_TYPE_CHANNELS				19
+# define MSG_TYPE_CHANNELSACK			20
 
 # define MAX_NICK_LEN					15
 # define MAX_CHANNEL_NAME_LEN			30
