@@ -15,6 +15,8 @@
 # define MSG_TYPE_DIRECT_CHAT			12
 # define MSG_TYPE_CHAT_RELAY			13
 # define MSG_TYPE_CHATACK				14
+# define MSG_TYPE_WHERE_AM_I			15
+# define MSG_TYPE_WHERE_AM_IACK			16
 
 # define MAX_NICK_LEN					15
 # define MAX_CHANNEL_NAME_LEN			30

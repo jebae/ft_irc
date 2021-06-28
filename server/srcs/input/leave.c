@@ -14,11 +14,13 @@ static int	ack_to_channel(
 	t_list	*channel;
 	char	*payload;
 	int		res;
+	char	*nick;
 
 	channel = (t_list *)get_hashmap(channel_name, channels);
 	if (channel == NULL)
 		return (error((char *)"fail to find channel"));
-	payload = strcat_all(5, (char *)"[", user->nick,
+	nick = (user->nick) ? user->nick : (char *)"unknown";
+	payload = strcat_all(5, (char *)"[", nick,
 		(char *)"] left [", channel_name, (char *)"]");
 	if (payload == NULL)
 		return (error((char *)"fail to concat payload"));

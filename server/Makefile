@@ -27,6 +27,7 @@ SRC_INPUT = router.c\
 	join.c\
 	msg_to_channel.c\
 	msg_to_user.c\
+	where_am_i.c\
 
 SRC_OUTPUT = send.c\
 	ack.c\

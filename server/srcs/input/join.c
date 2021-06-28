@@ -35,11 +35,13 @@ static int	ack_left(t_user *user, char *prev_channel, t_hashmap *channels)
 	t_list	*channel;
 	char	*payload;
 	int		res;
+	char	*nick;
 
 	channel = (t_list *)get_hashmap(prev_channel, channels);
 	if (channel == NULL)
 		return (error((char *)"fail to find channel"));
-	payload = strcat_all(5, (char *)"[", user->nick,
+	nick = (user->nick) ? user->nick : (char *)"unknown";
+	payload = strcat_all(5, (char *)"[", nick,
 		(char *)"] left [", prev_channel, (char *)"]");
 	if (payload == NULL)
 		return (error((char *)"fail to concat payload"));
@@ -54,11 +56,13 @@ static int	ack_to_channel(t_user *user, t_hashmap *channels)
 	t_list	*channel;
 	char	*payload;
 	int		res;
+	char	*nick;
 
 	channel = (t_list *)get_hashmap(user->channel, channels);
 	if (channel == NULL)
 		return (error((char *)"fail to find channel"));
-	payload = strcat_all(5, (char *)"[", user->nick,
+	nick = (user->nick) ? user->nick : (char *)"unknown";
+	payload = strcat_all(5, (char *)"[", nick,
 		(char *)"] joined [", user->channel, (char *)"]");
 	if (payload == NULL)
 		return (error((char *)"fail to concat payload"));

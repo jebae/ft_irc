@@ -65,10 +65,28 @@ static t_uint64	parse_no_payload(t_uint8 type, t_uint8 **msg)
 	return (sizeof(t_msg_hdr));
 }
 
+static t_uint64	parse_by_cmd(char *cmd, char *content, t_uint8 **msg)
+{
+	if (ft_strcmp(cmd, "/nick") == 0)
+		return (parse_simple_input(content, MSG_TYPE_NICK, msg));
+	else if (ft_strcmp(cmd, "/create_channel") == 0)
+		return (parse_simple_input(content, MSG_TYPE_CREATE_CHANNEL, msg));
+	else if (ft_strcmp(cmd, "/leave") == 0)
+		return (parse_no_payload(MSG_TYPE_LEAVE, msg));
+	else if (ft_strcmp(cmd, "/remove_channel") == 0)
+		return (parse_simple_input(content, MSG_TYPE_REMOVE_CHANNEL, msg));
+	else if (ft_strcmp(cmd, "/join") == 0)
+		return (parse_simple_input(content, MSG_TYPE_JOIN, msg));
+	else if (ft_strcmp(cmd, "/msg") == 0)
+		return (parse_chat(content, msg));
+	else if (ft_strcmp(cmd, "/where_am_i") == 0)
+		return (parse_no_payload(MSG_TYPE_WHERE_AM_I, msg));
+	return (0);
+}
+
 t_uint64		parse_user_input(char *input, t_uint8 **msg)
 {
-	t_uint64	msg_size;
-	char		*content;
+	char	*content;
 
 	if (input && input[0] != '/')
 	{
@@ -76,18 +94,5 @@ t_uint64		parse_user_input(char *input, t_uint8 **msg)
 		return (0);
 	}
 	content = parse_content(input);
-	msg_size = 0;
-	if (ft_strcmp(input, "/nick") == 0)
-		msg_size = parse_simple_input(content, MSG_TYPE_NICK, msg);
-	else if (ft_strcmp(input, "/create_channel") == 0)
-		msg_size = parse_simple_input(content, MSG_TYPE_CREATE_CHANNEL, msg);
-	else if (ft_strcmp(input, "/leave") == 0)
-		msg_size = parse_no_payload(MSG_TYPE_LEAVE, msg);
-	else if (ft_strcmp(input, "/remove_channel") == 0)
-		msg_size = parse_simple_input(content, MSG_TYPE_REMOVE_CHANNEL, msg);
-	else if (ft_strcmp(input, "/join") == 0)
-		msg_size = parse_simple_input(content, MSG_TYPE_JOIN, msg);
-	else if (ft_strcmp(input, "/msg") == 0)
-		msg_size = parse_chat(content, msg);
-	return (msg_size);
+	return (parse_by_cmd(input, content, msg));
 }

@@ -49,7 +49,31 @@ static void		log_request(t_user *user, t_msg_hdr *hdr)
 	else if (hdr->type == MSG_TYPE_CHANNEL_CHAT
 		|| hdr->type == MSG_TYPE_DIRECT_CHAT)
 		printf("/msg");
+	else if (hdr->type == MSG_TYPE_WHERE_AM_I)
+		printf("/where_am_i");
 	printf(" [%s]\n", user->nick);
+}
+
+static int		route(
+	t_hdr *hdr, t_uint8 *payload, t_user *user, t_context *ctx)
+{
+	if (hdr->msg.type == MSG_TYPE_NICK)
+		return (handle_nick((char *)payload, user, ctx));
+	else if (hdr->msg.type == MSG_TYPE_CREATE_CHANNEL)
+		return (handle_create_channel((char *)payload, user, ctx));
+	else if (hdr->msg.type == MSG_TYPE_LEAVE)
+		return (handle_leave(user, ctx));
+	else if (hdr->msg.type == MSG_TYPE_REMOVE_CHANNEL)
+		return (handle_remove_channel((char *)payload, user, ctx));
+	else if (hdr->msg.type == MSG_TYPE_JOIN)
+		return (handle_join((char *)payload, user, ctx));
+	else if (hdr->msg.type == MSG_TYPE_CHANNEL_CHAT)
+		return (handle_msg_to_channel((char *)payload, user, ctx));
+	else if (hdr->msg.type == MSG_TYPE_DIRECT_CHAT)
+		return (handle_msg_to_user(&hdr->chat, payload, user, ctx));
+	else if (hdr->msg.type == MSG_TYPE_WHERE_AM_I)
+		return (handle_where_am_i(user));
+	return (0);
 }
 
 int				route_input(t_user *user, t_context *ctx)
@@ -63,21 +87,7 @@ int				route_input(t_user *user, t_context *ctx)
 	if (read_input(user->sockfd, hdr.msg.size, &payload) == -1)
 		return (-1);
 	log_request(user, &hdr.msg);
-	res = 0;
-	if (hdr.msg.type == MSG_TYPE_NICK)
-		res = handle_nick((char *)payload, user, ctx);
-	else if (hdr.msg.type == MSG_TYPE_CREATE_CHANNEL)
-		res = handle_create_channel((char *)payload, user, ctx);
-	else if (hdr.msg.type == MSG_TYPE_LEAVE)
-		res = handle_leave(user, ctx);
-	else if (hdr.msg.type == MSG_TYPE_REMOVE_CHANNEL)
-		res = handle_remove_channel((char *)payload, user, ctx);
-	else if (hdr.msg.type == MSG_TYPE_JOIN)
-		res = handle_join((char *)payload, user, ctx);
-	else if (hdr.msg.type == MSG_TYPE_CHANNEL_CHAT)
-		res = handle_msg_to_channel((char *)payload, user, ctx);
-	else if (hdr.msg.type == MSG_TYPE_DIRECT_CHAT)
-		res = handle_msg_to_user(&hdr.chat, payload, user, ctx);
+	res = route(&hdr, payload, user, ctx);
 	ft_memdel((void **)&payload);
 	return (res);
 }

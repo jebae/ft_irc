@@ -111,4 +111,6 @@ int				handle_msg_to_channel(
 int				handle_msg_to_user(
 	t_chat_hdr *hdr, t_uint8 *payload, t_user *user, t_context *ctx);
 
+int				handle_where_am_i(t_user *user);
+
 #endif
