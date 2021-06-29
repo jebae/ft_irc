@@ -30,6 +30,7 @@ SRC_INPUT = router.c\
 	where_am_i.c\
 	who.c\
 	channels.c\
+	disconnect.c\
 
 SRC_OUTPUT = send.c\
 	ack.c\
@@ -37,6 +38,7 @@ SRC_OUTPUT = send.c\
 
 SRC_USER = add.c\
 	nick.c\
+	remove.c\
 
 SRC_CHANNEL = create.c\
 	leave.c\

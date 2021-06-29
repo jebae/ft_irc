@@ -1,5 +1,7 @@
 #include "client.h"
 
+static t_context	*g_ctx;
+
 static int	get_connected_socket(t_uint16 port)
 {
 	static char			*ip = (char *)"127.0.0.1";
@@ -36,7 +38,7 @@ static int	loop_io(t_context *ctx)
 {
 	struct timeval	timeout;
 
-	while (1)
+	while (!ctx->disconnect)
 	{
 		timeout.tv_sec = 10;
 		timeout.tv_usec = 0;
@@ -56,14 +58,30 @@ static int	loop_io(t_context *ctx)
 	return (0);
 }
 
+static void	handle_signal_quit(int sig)
+{
+	t_msg_hdr	hdr;
+
+	(void)sig;
+	hdr.type = MSG_TYPE_DISCONNECT;
+	hdr.size = 0;
+	send(g_ctx->sockfd, &hdr, sizeof(t_msg_hdr), 0);
+	close(g_ctx->sockfd);
+	exit(0);
+}
+
 int			run_client(t_uint16 port)
 {
 	t_context	ctx;
 	int			res;
 
+	ctx.disconnect = 0;
 	ctx.user_input = NULL;
 	if ((ctx.sockfd = get_connected_socket(port)) == -1)
 		return (-1);
+	g_ctx = &ctx;
+	signal(SIGINT, handle_signal_quit);
 	res = loop_io(&ctx);
+	close(ctx.sockfd);
 	return (res);
 }

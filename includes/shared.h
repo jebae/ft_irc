@@ -21,6 +21,8 @@
 # define MSG_TYPE_WHOACK				18
 # define MSG_TYPE_CHANNELS				19
 # define MSG_TYPE_CHANNELSACK			20
+# define MSG_TYPE_DISCONNECT			21
+# define MSG_TYPE_DISCONNECTACK			22
 
 # define MAX_NICK_LEN					15
 # define MAX_CHANNEL_NAME_LEN			30

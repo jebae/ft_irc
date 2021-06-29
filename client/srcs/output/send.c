@@ -13,7 +13,7 @@ static void	print_my_chat(t_chat_hdr *hdr, t_uint8 *msg)
 	}
 }
 
-int		send_msg(t_context *ctx)
+int			send_msg(t_context *ctx)
 {
 	t_uint16	msg_size;
 	t_uint8		*msg;
@@ -32,6 +32,8 @@ int		send_msg(t_context *ctx)
 	if (hdr->type == MSG_TYPE_CHANNEL_CHAT
 		|| hdr->type == MSG_TYPE_DIRECT_CHAT)
 		print_my_chat(hdr, msg);
+	if (hdr->type == MSG_TYPE_DISCONNECT)
+		ctx->disconnect = 1;
 	ft_memdel((void **)&msg);
 	if (err)
 		return (error((char *)"fail to send"));

@@ -85,6 +85,8 @@ static t_uint64	parse_by_cmd(char *cmd, char *content, t_uint8 **msg)
 		return (parse_no_payload(MSG_TYPE_WHO, msg));
 	else if (ft_strcmp(cmd, "/channels") == 0)
 		return (parse_no_payload(MSG_TYPE_CHANNELS, msg));
+	else if (ft_strcmp(cmd, "/disconnect") == 0)
+		return (parse_no_payload(MSG_TYPE_DISCONNECT, msg));
 	return (0);
 }
 

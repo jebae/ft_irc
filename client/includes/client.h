@@ -14,6 +14,7 @@ extern "C" {
 # include <netinet/in.h>
 # include <arpa/inet.h>
 # include <stdio.h>
+# include <signal.h>
 
 typedef struct	s_context
 {
@@ -21,6 +22,7 @@ typedef struct	s_context
 	fd_set	wset;
 	int		sockfd;
 	char	*user_input;
+	int		disconnect;
 }				t_context;
 
 

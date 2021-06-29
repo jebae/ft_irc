@@ -40,6 +40,7 @@ static int	handle_io(t_context *ctx)
 {
 	t_list_node	*node;
 	t_user		*user;
+	int			i = 0;
 
 	if (FD_ISSET(ctx->listener, &ctx->rset))
 		if (add_user(ctx) == -1)
@@ -51,9 +52,12 @@ static int	handle_io(t_context *ctx)
 		if (FD_ISSET(user->sockfd, &ctx->rset))
 			route_input(user, ctx);
 		if (FD_ISSET(user->sockfd, &ctx->wset))
+		{
 			if (send_msg(user) == -1)
 				return (-1);
+		}
 		node = node->next;
+		i++;
 	}
 	return (0);
 }
@@ -69,10 +73,12 @@ static int	loop_io_multiplex(t_context *ctx)
 		timeout.tv_usec = 0;
 		init_fdset(ctx);
 		res = select(ctx->maxfd + 1, &ctx->rset, &ctx->wset, NULL, &timeout);
+		if (res == -1)
+			return (error((char *)"fail to select"));
 		if (res > 0 && handle_io(ctx) == -1)
 			return (-1);
-		else if (res == -1)
-			return (error((char *)"fail to select"));
+		remove_disconnected_users(&ctx->users);
+		ctx->maxfd = get_maxfd(&ctx->users, ctx->listener);
 	}
 	return (0);
 }

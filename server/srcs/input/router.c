@@ -55,6 +55,8 @@ static void		log_request(t_user *user, t_msg_hdr *hdr)
 		printf("/who");
 	else if (hdr->type == MSG_TYPE_CHANNELS)
 		printf("/channels");
+	else if (hdr->type == MSG_TYPE_DISCONNECT)
+		printf("/disconnect");
 	printf(" [%s]\n", user->nick);
 }
 
@@ -81,6 +83,8 @@ static int		route(
 		return (handle_who(user, ctx));
 	else if (hdr->msg.type == MSG_TYPE_CHANNELS)
 		return (handle_channels(user, ctx));
+	else if (hdr->msg.type == MSG_TYPE_DISCONNECT)
+		return (handle_disconnect(user, ctx));
 	return (0);
 }
 

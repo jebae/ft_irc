@@ -10,6 +10,7 @@ static t_user	*create_user(int sockfd)
 	user->sockfd = sockfd;
 	user->nick = NULL;
 	user->channel = NULL;
+	user->disconnect = 0;
 	init_list(&user->output_q);
 	return (user);
 }

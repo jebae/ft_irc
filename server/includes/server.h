@@ -20,6 +20,7 @@ typedef struct	s_user
 	char	*nick;
 	char	*channel;
 	t_list	output_q;
+	int		disconnect;
 }				t_user;
 
 typedef struct	s_context
@@ -43,6 +44,7 @@ int				error(char *msg);
 */
 int				init_context(t_context *ctx);
 void			clear_context(t_context *ctx);
+int				get_maxfd(t_list *users, int listener);
 
 /*
 ** run
@@ -81,6 +83,8 @@ int				broadcast_chat_except_me(
 ** user
 */
 int				add_user(t_context *ctx);
+void			remove_user(t_user *user, t_context *ctx);
+void			remove_disconnected_users(t_list *users);
 int				change_nick(
 	char *new_nick, t_user *user, t_hashmap *user_by_nick);
 
@@ -114,5 +118,6 @@ int				handle_msg_to_user(
 int				handle_where_am_i(t_user *user);
 int				handle_who(t_user *user, t_context *ctx);
 int				handle_channels(t_user *user, t_context *ctx);
+int				handle_disconnect(t_user *user, t_context *ctx);
 
 #endif

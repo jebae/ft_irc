@@ -56,3 +56,20 @@ void		clear_context(t_context *ctx)
 	}
 	clear_list(&ctx->users);
 }
+
+int			get_maxfd(t_list *users, int listener)
+{
+	int			maxfd;
+	t_list_node	*node;
+	t_user		*user;
+
+	maxfd = listener;
+	node = users->head;
+	while (node)
+	{
+		user = (t_user *)node->data;
+		maxfd = (user->sockfd > maxfd) ? user->sockfd : maxfd;
+		node = node->next;
+	}
+	return (maxfd);
+}
