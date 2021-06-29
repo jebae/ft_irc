@@ -90,4 +90,12 @@ test:
 		$(filter-out ./srcs/main.c, $(wildcard $(SRCDIR)/**/*.c) $(wildcard $(SRCDIR)/*.c)) $(SRCDIR)/*.test.cpp $(SRCDIR)/**/*.test.cpp\
 		-o $@
 
-.PHONY: all test
+clean:
+	rm -rf $(OBJDIR)
+
+fclean: clean
+	rm -rf $(NAME)
+
+re:	fclean all
+
+.PHONY: all test clean fclean re
